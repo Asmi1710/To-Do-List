@@ -2,25 +2,37 @@ import React, { useState } from "react";
 import Item from "./Item";
 
 function App() {
+  //stores the list of notes added
   const [notes, setNote] = useState([]);
+  //stores the new input item in to-do
   const [toDo, setToDo] = useState("");
 
+  //keeps track of new anything typed in the input box
   function handleChange(event) {
     setToDo(event.target.value);
     //console.log(toDo);
   }
 
+  //this maintains the list-> adding new items when "Add" is clicked
   function handleClick(event) {
-    setNote((prevNote) => {
-      return [...prevNote, { text: toDo }];
-    });
-    console.log(notes);
-    setToDo("");
-    event.preventDefault();
-  }
+    // avoiding addition when nothing is typed
+    if (toDo !== "") {
+      setNote((prevNote) => {
+        return [...prevNote, toDo];
+      });
 
-  function createList(item) {
-    return <Item note={item.text} />;
+      setToDo("");
+      event.preventDefault();
+    }
+    console.log(notes);
+  }
+  // handles the deletion of items from the list
+  function deleteItem(id) {
+    setNote((prevNote) => {
+      return prevNote.filter((note, index) => {
+        return index !== id;
+      });
+    });
   }
 
   return (
@@ -33,7 +45,12 @@ function App() {
         <button onClick={handleClick}>Add</button>
       </div>
       <div>
-        <ul>{notes.map(createList)}</ul>
+        <ul>
+          {/* mapping:adding the list items by calling Item component */}
+          {notes.map((item, index) => (
+            <Item note={item} key={index} id={index} onClick={deleteItem} />
+          ))}
+        </ul>
       </div>
     </div>
   );
