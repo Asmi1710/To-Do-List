@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Item from "./Item";
+import Input from "./Input";
 
 function App() {
   //stores the list of notes added
@@ -24,7 +25,7 @@ function App() {
       setToDo("");
       event.preventDefault();
     }
-    console.log(notes);
+    //console.log(notes);
   }
   // handles the deletion of items from the list
   function deleteItem(id) {
@@ -40,10 +41,15 @@ function App() {
       <div className="heading">
         <h1>To-Do List</h1>
       </div>
-      <div>
+      {/* <div>
         <input onChange={handleChange} value={toDo} />
         <button onClick={handleClick}>Add</button>
-      </div>
+      </div> */}
+      <Input
+        toDoItem={toDo}
+        handleChangeFunction={handleChange}
+        handleClickFunction={handleClick}
+      />
       <div>
         <ul>
           {/* mapping:adding the list items by calling Item component */}
